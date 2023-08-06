@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     static KeyWordList keyWordList = new KeyWordList();
+    static NextWordList nextWordList = new NextWordList();
     public static void main(String[] args) {
         if (args.length > 0){
             intake(args[0]);
@@ -14,6 +15,8 @@ public class Main {
         }
 
         keyWordList.print();
+        System.out.println();
+        nextWordList.print();
     }
 
     public static void intake(String filename){
@@ -22,8 +25,9 @@ public class Main {
             String nextWord;
             while (reader.hasNext()){
                 nextWord = filter(reader.next());
-                if (!nextWord.equals("") || !nextWord.equals(" ") || !nextWord.equals(null)){
-                    keyWordList.add(nextWord);
+                if (!nextWord.equals("") && !nextWord.equals(" ")){
+                    keyWordList.addUnique(nextWord);
+                    nextWordList.foundNextWord(nextWord);
                 }
             }
 

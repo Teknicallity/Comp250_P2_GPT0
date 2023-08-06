@@ -2,28 +2,26 @@ public class KeyWordList {
     private Element start, end;
     private int size;
     //nested class that handles a single string  element
-    private class Element
-    {
-        public Element(String s)
-        {
-            value=s;
-            next=null;
+    private static class Element {
+        public Element(String s) {
+            value = s;
+            next = null;
         }
         String value;
         Element next;
     }
 
     public KeyWordList() {
-        start=null;
-        end=null;
+        start = null;
+        end = null;
         size = 0;
     }
 
     public void add(String s) {
         //adds s to the list
         Element capsule = new Element(s);
-        if (end==null) {
-            start=capsule;
+        if (end == null) {
+            start = capsule;
         }
         else {
             //go to last element, point it to me
@@ -32,6 +30,21 @@ public class KeyWordList {
         }
         end=capsule;
         size++;
+    }
+
+    public void addUnique(String s){
+        if (find(s) == -1){
+            Element capsule = new Element(s);
+            if (end == null) {
+                start = capsule;
+            } else {
+                //go to last element, point it to me
+                end.next = capsule;
+                //redefine last to my capsule
+            }
+            end = capsule;
+            size++;
+        }
     }
 
     public String get(int index){
@@ -57,6 +70,7 @@ public class KeyWordList {
                 return index;
             }
             index++;
+            current = current.next;
         }
         return -1;
     }
