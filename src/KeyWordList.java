@@ -5,9 +5,12 @@ public class KeyWordList {
     private static class Element {
         public Element(String s) {
             value = s;
+            nextWordList = null;
             next = null;
+
         }
         String value;
+        NextWordList nextWordList;
         Element next;
     }
 
@@ -20,10 +23,11 @@ public class KeyWordList {
     public void add(String s) {
         //adds s to the list
         Element capsule = new Element(s);
-        if (end == null) {
+        capsule.nextWordList = new NextWordList();
+        if (end == null) { //handles first in list
             start = capsule;
         }
-        else {
+        else { //handles adding to last point
             //go to last element, point it to me
             end.next=capsule;
             //redefine last to my capsule
@@ -32,28 +36,39 @@ public class KeyWordList {
         size++;
     }
 
-    public void addUnique(String s){
-        if (find(s) == -1){
-            Element capsule = new Element(s);
-            if (end == null) {
-                start = capsule;
-            } else {
-                //go to last element, point it to me
-                end.next = capsule;
-                //redefine last to my capsule
-            }
-            end = capsule;
-            size++;
+    public int addUnique(String s){
+        int index = find(s);
+        //if String s is not found, add it and return its index
+        if (index == -1){
+            add(s);
         }
+        return index;
+    }
+
+    public void foundWordSequence(String keyword, String nextWord){
+        int index = addUnique(keyword); //adds word if it is unique (-1), or return index if found
+        if (index == -1){
+            index = size-1;
+        }
+        Element current = getElement(index);
+        current.nextWordList.foundNextWord(nextWord);
     }
 
     public String get(int index){
-    //returns the string at index index
+    //returns the string at index, index
         Element current = start;
         for (int i = 0; i<index; i++){
             current = current.next;
         }
         return current.value;
+    }
+
+    private Element getElement(int index){
+        Element current = start;
+        for (int i = 0; i<index; i++){
+            current = current.next;
+        }
+        return current;
     }
 
     public int length(){
@@ -80,7 +95,8 @@ public class KeyWordList {
         Element e=start;
         while(e!=null)
         {
-            System.out.println(e.value);
+            System.out.println(e.value+":");
+            System.out.println(e.nextWordList);
             e=e.next;
         }
     }

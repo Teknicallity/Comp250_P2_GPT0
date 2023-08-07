@@ -52,6 +52,20 @@ public class NextWordList {
         }
     }
 
+    public String toString(){
+        Element current = start;
+        StringBuilder strBuild = new StringBuilder();
+        while(current != null) {
+            strBuild.append("\t")
+                    .append(current.word)
+                    .append(" ")
+                    .append(current.count)
+                    .append("\n");
+            current = current.next;
+        }
+        return strBuild.toString();
+    }
+
     public int getSize(){
         return size;
     }
