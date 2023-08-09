@@ -48,16 +48,37 @@ public class Main {
         return modifiedStr.toString();
     }
 
-    public static void askUserInput(){
+
+    public static void askUserInputOld(){
         Scanner keyboard = new Scanner(System.in);
         System.out.println("Please choose a starting word: ");
         String startWord = keyboard.nextLine();
         String nextWord;
+
         System.out.print(startWord+" ");
+
         for (int i =0; i<paragraphLength; i++) {
             nextWord = keyWordList.getRandomNextWord(startWord);
             System.out.print(nextWord+" ");
             startWord = nextWord;
         }
+    }
+
+    public static void askUserInput(){
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("Please choose a starting word: ");
+        String word1 = keyboard.nextLine();
+        String word2 = keyWordList.getRandomNextWord(word1);
+        String keyWord, nextWord;
+
+        for (int i =0; i<paragraphLength; i++) {
+            keyWord = word1+" "+word2;
+            nextWord = keyWordList.getRandomNextWord(word2);
+            keyWordList.foundWordSequence(keyWord, nextWord);
+            System.out.print(word1+" ");
+            word1 = word2;
+            word2 = nextWord;
+        }
+
     }
 }

@@ -21,7 +21,7 @@ public class NextWordList {
         size = 0;
     }
 
-    public void foundNextWord(String nextWord){
+    public void foundNextWord(String nextWord){ //finds element and increases count or adds it to list
         Element capsule = new Element(nextWord);
         if (start == null){ //takes care of no elements in list
             start = capsule;

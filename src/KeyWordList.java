@@ -46,7 +46,7 @@ public class KeyWordList {
     }
 
     public void foundWordSequence(String keyword, String nextWord){
-        int index = addUnique(keyword); //adds word if it is unique (-1), or return index if found
+        int index = addUnique(keyword); //adds word if it is unique (-1), or return at index if found
         if (index == -1){
             index = size-1;
         }
