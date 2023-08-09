@@ -23,15 +23,18 @@ public class Main {
     public static void intake(String filename){
         try {
             Scanner reader = new Scanner(new File(filename));
-            String keyWord = filter(reader.next());
-            String word;
+            String word1 = filter(reader.next());
+            String word2 = filter(reader.next());
+            String nextWord, keyWord;
             while (reader.hasNext()) {
-                word = filter(reader.next());
-                if (!keyWord.equals("") && !keyWord.equals(" ")){
-                    keyWordList.foundWordSequence(keyWord, word);
+                keyWord = word1 + " " + word2;
+                nextWord = filter(reader.next());
+                if (/*!keyWord.equals("") && */!keyWord.equals(" ")){
+                    keyWordList.foundWordSequence(keyWord, nextWord);
                     //nextWordList.foundNextWord(keyWord); //adds to nextWordList
                 }
-                keyWord = word;
+                word1 = word2;
+                word2 = nextWord;
             } //while (reader.hasNext());
 
         } catch (Exception e) {
@@ -48,37 +51,24 @@ public class Main {
         return modifiedStr.toString();
     }
 
-
-    public static void askUserInputOld(){
-        Scanner keyboard = new Scanner(System.in);
-        System.out.println("Please choose a starting word: ");
-        String startWord = keyboard.nextLine();
-        String nextWord;
-
-        System.out.print(startWord+" ");
-
-        for (int i =0; i<paragraphLength; i++) {
-            nextWord = keyWordList.getRandomNextWord(startWord);
-            System.out.print(nextWord+" ");
-            startWord = nextWord;
-        }
-    }
-
     public static void askUserInput(){
         Scanner keyboard = new Scanner(System.in);
-        System.out.print("Please choose a starting word: ");
-        String word1 = keyboard.nextLine();
-        String word2 = keyWordList.getRandomNextWord(word1);
-        String keyWord, nextWord;
+        System.out.print("Please choose a starting word pair: ");
+        String startWords = keyboard.nextLine();
+        if (startWords.split(" ").length != 2){
+            System.out.println("Not a word pair");
+            return;
+        }
+        String nextWord;
+
+        System.out.print(startWords+" ");
 
         for (int i =0; i<paragraphLength; i++) {
-            keyWord = word1+" "+word2;
-            nextWord = keyWordList.getRandomNextWord(word2);
-            keyWordList.foundWordSequence(keyWord, nextWord);
-            System.out.print(word1+" ");
-            word1 = word2;
-            word2 = nextWord;
+            nextWord = keyWordList.getRandomNextWord(startWords);
+            System.out.print(nextWord+" ");
+            //startWords = nextWord;
+            startWords = startWords.substring(startWords.indexOf(" ")+1,startWords.length());
+            startWords = startWords + " " + nextWord;
         }
-
     }
 }

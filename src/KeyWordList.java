@@ -121,9 +121,12 @@ public class KeyWordList {
         current.value = value;
     }
 
-    String getRandomNextWord(String keyword){
+    public String getRandomNextWord(String keyword){
         Element current = getElementWithString(keyword);
-        return current.nextWordList.getRandomWord();
+        if (current != null)
+            return current.nextWordList.getRandomWord();
+        else
+            return "";
     }
 
 }
