@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Main {
     static KeyWordList keyWordList = new KeyWordList();
+    static final int paragraphLength = 100;
     //static NextWordList nextWordList = new NextWordList();
     public static void main(String[] args) {
         if (args.length > 0){
@@ -16,7 +17,7 @@ public class Main {
 
         keyWordList.print();
 
-        //nextWordList.print();
+        askUserInput(); //asks and prints
     }
 
     public static void intake(String filename){
@@ -45,5 +46,18 @@ public class Main {
                 modifiedStr.append(c);
         }
         return modifiedStr.toString();
+    }
+
+    public static void askUserInput(){
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Please choose a starting word: ");
+        String startWord = keyboard.nextLine();
+        String nextWord;
+        System.out.print(startWord+" ");
+        for (int i =0; i<paragraphLength; i++) {
+            nextWord = keyWordList.getRandomNextWord(startWord);
+            System.out.print(nextWord+" ");
+            startWord = nextWord;
+        }
     }
 }

@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class NextWordList {
     private Element start, end;
     private int size;
@@ -27,7 +29,7 @@ public class NextWordList {
             return;
         }
         Element current = start;
-        //loops through all elements
+        //loops through all elements, if nextWord is found, increment
         while (current != null) {
             if (current.word.equals(nextWord)) {
                 current.count++;
@@ -66,7 +68,24 @@ public class NextWordList {
         return strBuild.toString();
     }
 
+
+
     public int getSize(){
         return size;
+    }
+
+    public String getRandomWord(){
+        Random rand = new Random();
+        Element current = start;
+        int choice = 0;
+
+        if (size != 0)
+            choice = rand.nextInt(size); //random number up to size
+        int runningCount = 0;
+        while (runningCount < choice){
+            current = current.next;
+            runningCount++;
+        }
+        return current.word;
     }
 }

@@ -71,6 +71,18 @@ public class KeyWordList {
         return current;
     }
 
+    public Element getElementWithString(String s){
+        //returns the Element of the first instance with s
+        Element current = start;
+        while(current!=null){
+            if (current.value.equals(s)){
+                return current;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+
     public int length(){
         //returns the number of elements in the list
         return size;
@@ -107,6 +119,11 @@ public class KeyWordList {
             current = current.next;
         }
         current.value = value;
+    }
+
+    String getRandomNextWord(String keyword){
+        Element current = getElementWithString(keyword);
+        return current.nextWordList.getRandomWord();
     }
 
 }
