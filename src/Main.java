@@ -4,7 +4,8 @@ import java.util.Scanner;
 public class Main {
     static KeyWordList keyWordList = new KeyWordList();
     static final int paragraphLength = 100;
-    //static NextWordList nextWordList = new NextWordList();
+    static int nOrder = 0;
+
     public static void main(String[] args) {
         if (args.length > 0){
             intake(args[0]);
@@ -21,21 +22,32 @@ public class Main {
     }
 
     public static void intake(String filename){
+        Scanner keyboard = new Scanner(System.in);
+        System.out.print("How many linked words should the text be based on?: ");
+        nOrder = keyboard.nextInt();
+        keyboard.nextLine();
+
+        StringBuilder builder = new StringBuilder();
         try {
             Scanner reader = new Scanner(new File(filename));
-            String word1 = filter(reader.next());
-            String word2 = filter(reader.next());
+            for (int i = 0; i<nOrder; i++) {
+                builder.append(filter(reader.next()));
+                if (i<nOrder - 1){
+                    builder.append(" ");
+                }
+            }
             String nextWord, keyWord;
+            keyWord = builder.toString();
             while (reader.hasNext()) {
-                keyWord = word1 + " " + word2;
+
                 nextWord = filter(reader.next());
-                if (/*!keyWord.equals("") && */!keyWord.equals(" ")){
+                if (!keyWord.equals(" ")) {
                     keyWordList.foundWordSequence(keyWord, nextWord);
                     //nextWordList.foundNextWord(keyWord); //adds to nextWordList
                 }
-                word1 = word2;
-                word2 = nextWord;
-            } //while (reader.hasNext());
+                keyWord = keyWord.substring(keyWord.indexOf(" ")+1);
+                keyWord = keyWord + " " + nextWord;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +67,7 @@ public class Main {
         Scanner keyboard = new Scanner(System.in);
         System.out.print("Please choose a starting word pair: ");
         String startWords = keyboard.nextLine();
-        if (startWords.split(" ").length != 2){
+        if (startWords.split(" ").length <1){
             System.out.println("Not a word pair");
             return;
         }
@@ -63,12 +75,19 @@ public class Main {
 
         System.out.print(startWords+" ");
 
-        for (int i =0; i<paragraphLength; i++) {
+        int printCount = 0;
+        for (int i = 0; i < paragraphLength; i++) {
+            if (printCount>20){
+                System.out.println();
+                printCount = 0;
+            }
             nextWord = keyWordList.getRandomNextWord(startWords);
-            System.out.print(nextWord+" ");
+            System.out.print(nextWord + " ");
+            printCount++;
             //startWords = nextWord;
-            startWords = startWords.substring(startWords.indexOf(" ")+1,startWords.length());
+            startWords = startWords.substring(startWords.indexOf(" ") + 1);
             startWords = startWords + " " + nextWord;
         }
+        System.out.println();
     }
 }
