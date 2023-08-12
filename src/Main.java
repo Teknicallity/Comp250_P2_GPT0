@@ -30,6 +30,7 @@ public class Main {
         StringBuilder builder = new StringBuilder();
         try {
             Scanner reader = new Scanner(new File(filename));
+            String tmp;
             for (int i = 0; i<nOrder; i++) {
                 builder.append(filter(reader.next()));
                 if (i<nOrder - 1){
@@ -45,8 +46,13 @@ public class Main {
                     keyWordList.foundWordSequence(keyWord, nextWord);
                     //nextWordList.foundNextWord(keyWord); //adds to nextWordList
                 }
+                tmp = keyWord;
                 keyWord = keyWord.substring(keyWord.indexOf(" ")+1);
-                keyWord = keyWord + " " + nextWord;
+                if (tmp.equals(keyWord)) {
+                    keyWord = nextWord;
+                } else {
+                    keyWord = keyWord + " " + nextWord;
+                }
             }
 
         } catch (Exception e) {
@@ -65,7 +71,11 @@ public class Main {
 
     public static void askUserInput(){
         Scanner keyboard = new Scanner(System.in);
-        System.out.print("Please choose a starting word pair: ");
+        if (nOrder>1){
+            System.out.print("Please choose "+nOrder+" words to start: ");
+        } else {
+            System.out.print("Please choose one word to start: ");
+        }
         String startWords = keyboard.nextLine();
         if (startWords.split(" ").length <1){
             System.out.println("Not a word pair");
@@ -75,6 +85,7 @@ public class Main {
 
         System.out.print(startWords+" ");
 
+        String tmp;
         int printCount = 0;
         for (int i = 0; i < paragraphLength; i++) {
             if (printCount>20){
@@ -84,9 +95,14 @@ public class Main {
             nextWord = keyWordList.getRandomNextWord(startWords);
             System.out.print(nextWord + " ");
             printCount++;
-            //startWords = nextWord;
-            startWords = startWords.substring(startWords.indexOf(" ") + 1);
-            startWords = startWords + " " + nextWord;
+
+            tmp = startWords;
+            startWords = startWords.substring(startWords.indexOf(" ")+1);
+            if (tmp.equals(startWords)) {
+                startWords = nextWord;
+            } else {
+                startWords = startWords + " " + nextWord;
+            }
         }
         System.out.println();
     }
